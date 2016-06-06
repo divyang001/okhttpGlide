@@ -62,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
 
             String name1 = null;
             String[] name2 = new String[100];
+            String[] padress1=new String[100];
+            String[] padress2=new String[100];
+            String[] pimage=new String[100];
 
             /**
              * Getting JSON Object from Web Using okHttp
@@ -116,10 +119,30 @@ public class MainActivity extends AppCompatActivity {
 
                                             JSONObject inner2Object = array2.getJSONObject(j2Index);
                                             name2[j2Index] = inner2Object.getString("name");
-                                            x.setAdress1(name1);
+                                           // x.setAdress1(name1);
+
 
 
                                         }
+                                        JSONArray array3= innerObject.getJSONArray("categories");
+                                        for(int j3Index=0;j3Index<array3.length();j3Index++){
+                                           //get the types from here
+                                        }
+
+                                        padress1[jIndex]=innerObject.getString("address1");
+                                        padress2[jIndex]=innerObject.getString("address2");
+                                        JSONArray array4=innerObject.getJSONArray("photos");
+                                        for(int j4Index=0;j4Index<array4.length();j4Index++){
+                                            JSONObject array4inner=array4.getJSONObject(j4Index);
+
+                                            pimage[jIndex]=array4inner.getString("image");
+                                            x.setImg(pimage[jIndex]);
+                                            x.setAdress1(padress1[jIndex]);
+                                            x.setAdress2(padress2[jIndex]);
+                                            dataList.add(x);
+
+                                        }
+
                                     }
 
 
