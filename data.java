@@ -35,7 +35,8 @@ public class data {
         return img;
     }
 
-    public void setImg(){
+    public void setImg(String img){
         this.img=img;
     }
+    public String getImg(){return img;}
 }
