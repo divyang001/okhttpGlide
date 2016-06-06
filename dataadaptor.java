@@ -1,4 +1,5 @@
 package com.example.hunter.okhttp;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,15 @@ import java.util.List;
 public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder>  {
 
     private List<data> dataList;
+    private Context context;
+    private LayoutInflater mInflater;
+
+    public dataadaptor(Context context, List<data> objects) {
+
+        this.context = context;
+        this.mInflater = LayoutInflater.from(context);
+        dataList = objects;
+    }
 
 
 
@@ -31,6 +41,7 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
             image = (ImageView) view.findViewById(R.id.imageView);
         }
     }
+
 
 
     public dataadaptor(List<data> dataList) {
@@ -53,11 +64,12 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
         Glide.with(context)                 // get context of this activity
                 .load(gym.getImg())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.image)  // into want you want
-                .centerCrop()
+                .into(holder.image);  // into what you want
+                /*.centerCrop()
                 .transform(new CircleTransform(context))
                 .placeholder(R.drawable.placeholder)
-                .error(R.drawable.imagenotfound);
+                .error(R.drawable.imagenotfound);*/
+
 
 
 
