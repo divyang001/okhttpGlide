@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private dataadaptor mAdapter;
     private TextView tv1;
-  //  String data = null;
+    //  String data = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +47,23 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         cd = new Detection(getApplicationContext());
         output = (TextView) findViewById(R.id.tv1);
-        mAdapter = new dataadaptor(dataList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());// get Internet status
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());                                     // check for Internet status
-        recyclerView.setAdapter(mAdapter);
+        mAdapter = new dataadaptor(this,dataList);
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
             // Internet Connection is Present
 
             new GetDataTask().execute();
-          //  mAdapter.notifyDataSetChanged();
+            //  mAdapter.notifyDataSetChanged();
 
         } else {
             // Internet connection is not present
         }
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());// get Internet status
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());                                     // check for Internet status
+        recyclerView.setAdapter(mAdapter);
+
+
 
 
     }
@@ -137,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
                         String city = jsonObj.getString("city");
                         String lat = jsonObj.getString("latitude");
                         String lng = jsonObj.getString("longitude");
-                      //  data += "id=" + lat + "\nname=" + lng + "\nfeatured=" + city + "\n";
+                        //  data += "id=" + lat + "\nname=" + lng + "\nfeatured=" + city + "\n";
 
                         JSONArray jd = jsonObj.getJSONArray("photos");
 
@@ -156,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                         //data += "Blog Number "+(i+1)+" \n Blog Name= "+title  +" \n URL= "+ url +" \n\n\n\n ";
                     }
                     //  return  data;
-                //    return data;
+                    //    return data;
 
 
                 } else {

@@ -1,50 +1,60 @@
 package com.devil07.divyang.okhttplib;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
-public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder>  {
+public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> {
 
     private List<data> dataList;
     private Context context;
     private LayoutInflater mInflater;
 
-    public dataadaptor(Context context, List<data> objects) {
-
+    public dataadaptor(Context context, List<data> dataList) {
+        this.dataList = dataList;
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        dataList = objects;
-    }
 
+    }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView mainadress1, mainadress2;
         public ImageView image;
+        public RelativeLayout rv;
 
         public MyViewHolder(View view) {
             super(view);
             mainadress1 = (TextView) view.findViewById(R.id.textViewName);
             mainadress2 = (TextView) view.findViewById(R.id.textViewEmail);
-           // image = (ImageView) view.findViewById(R.id.imageView);
+            image = (ImageView) view.findViewById(R.id.imageView);
+            rv=(RelativeLayout)view.findViewById(R.id.rel);
+            rv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = itemView.getContext();
+                    int position=getAdapterPosition();
+                    Toast.makeText(context,"position ="+ position,Toast.LENGTH_SHORT).show();
+                   // Intent intent = new Intent(context, CourseOpenerActivity.class);//jo bhi krna ithr kar liyo onclick pr
+                   // context.startActivity(intent);
+                }
+            });
+
         }
     }
 
-
-
-    public dataadaptor(List<data> dataList) {
-        this.dataList = dataList;
-    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,28 +64,26 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
         return new MyViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         data gym = dataList.get(position);
         holder.mainadress1.setText(gym.getAdress1());
         holder.mainadress2.setText(gym.getAdress2());
-      //  Glide.with(context)                 // get context of this activity
-        //        .load(gym.getImg())
-          //      .diskCacheStrategy(DiskCacheStrategy.ALL)
-            //    .into(holder.image);  // into what you want
-                /*.centerCrop()
-                .transform(new CircleTransform(context))
-                .placeholder(R.drawable.placeholder)
-                .error(R.drawable.imagenotfound);*/
-    }
+        Glide.with(context)                 // get context of this activity
+                .load(gym.getImg())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .into(holder.image);   // into what you want
 
+    }
     @Override
     public int getItemCount() {
         return dataList.size();
     }
+
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
-
 }
