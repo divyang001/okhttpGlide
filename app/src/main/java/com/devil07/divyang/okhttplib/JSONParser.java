@@ -15,7 +15,7 @@ public class JSONParser {
             /********
               * URLS
               *******/
-                    private static final String MAIN_URL = "http://dev.fittect.com/api/centers/";
+                        private static final String MAIN_URL = "http://dev.fittect.com/api/centers/";
             /**
               * TAGs Defined Here...
               */

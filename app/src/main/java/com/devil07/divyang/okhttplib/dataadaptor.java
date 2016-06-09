@@ -2,6 +2,8 @@ package com.devil07.divyang.okhttplib;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,13 +70,19 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         data gym = dataList.get(position);
+        byte[] bytes=gym.getImg();
+        Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+
         holder.mainadress1.setText(gym.getAdress1());
         holder.mainadress2.setText(gym.getAdress2());
-        Glide.with(context)                 // get context of this activity
+        holder.image.setImageBitmap(bmp);
+
+
+       /* Glide.with(context)                 // get context of this activity
                 .load(gym.getImg())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .into(holder.image);   // into what you want
+                .into(holder.image);   // into what you want */
 
     }
     @Override

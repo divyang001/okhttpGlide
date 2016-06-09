@@ -1,6 +1,8 @@
 package com.devil07.divyang.okhttplib;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -23,9 +26,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity {
     Boolean isInternetPresent = false;
@@ -38,26 +48,34 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private dataadaptor mAdapter;
     private TextView tv1;
+    Realm realm;
+    Boolean checkRealm;
     //  String data = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initialiseRealm();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         cd = new Detection(getApplicationContext());
         output = (TextView) findViewById(R.id.tv1);
-        mAdapter = new dataadaptor(this,dataList);
+        mAdapter = new dataadaptor(this, dataList);
+
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
             // Internet Connection is Present
-
             new GetDataTask().execute();
+
             //  mAdapter.notifyDataSetChanged();
 
-        } else {
-            // Internet connection is not present
         }
+        else
+        {
+          
+
+        }
+
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());// get Internet status
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());                                     // check for Internet status
@@ -65,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
     }
 
     public class GetDataTask extends AsyncTask<Void, Integer, String> {
-
         ProgressDialog dialog;
 
         @Override
@@ -78,16 +94,23 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Progress Dialog for User Interaction
              */
-            dialog = new ProgressDialog(MainActivity.this);
-            dialog.setTitle("Hey Wait Please...");
-            dialog.setMessage("I am getting your JSON");
-            dialog.show();
+         //   dialog = new ProgressDialog(MainActivity.this);
+          //  dialog.setTitle("Hey Wait Please...");
+           // dialog.setMessage("I am getting your JSON");
+         //   dialog.show();
         }
 
         //  @Nullable
         @Override
 
         protected String doInBackground(Void... params) {
+            realm = Realm.getDefaultInstance();
+            RealmResults<data> Mydata = realm.where(data.class).findAll();
+            realm.beginTransaction();
+            Mydata.clear();
+            realm.commitTransaction();
+
+
             JSONObject jsonObject = JSONParser.getDataFromWeb();
             jsn = jsonObject;
             try {
@@ -104,7 +127,6 @@ public class MainActivity extends AppCompatActivity {
                 if (jsn != null) {
 
                     JSONArray ja = jsn.getJSONArray("results");
-
                     for (int i = 0; i < ja.length(); i++) {
 
 
@@ -152,13 +174,27 @@ public class MainActivity extends AppCompatActivity {
                             // data+="id="+id+"\nname="+names+"\nfeatured="+fea+"\n";
                             //  data+=id+names+fea;
                         }
+                        Bitmap theBitmap = Glide.
+                                with(MainActivity.this).
+                                load(imgurls).
+                                asBitmap().
+                                into(100, 100). // Width and height
+                                get();
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        theBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] byteArray = stream.toByteArray();
 
-                        data x = new data(address_1,address_2,imgurls);
+                        realm.beginTransaction();
+                        data x = new data(address_1, address_2, byteArray);
+                        data y=realm.createObject(data.class);
+                        y.setAdress1(address_1);
+                        y.setAdress2(address_2);
+                        y.setImg(byteArray);
+                        realm.commitTransaction();
                         dataList.add(x);
-                        //data += "Blog Number "+(i+1)+" \n Blog Name= "+title  +" \n URL= "+ url +" \n\n\n\n ";
+                        //  dataList.add(x);
                     }
-                    //  return  data;
-                    //    return data;
+                    //   return data;
 
 
                 } else {
@@ -167,29 +203,34 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
             }
+            realm.close();
 
             return "orange";
+
         }
 
         @Override
 
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            if (result.contentEquals("orange")) {
-                // output.setText("blue");
-            }
-            if (result.contentEquals("green")) {
-                // output.setText("green");
-            } else {
-                //   output.setText(result);
 
-            }
-            dialog.dismiss();
+          //  dialog.dismiss();
             mAdapter.notifyDataSetChanged();
 
         }
     }
+    private void initialiseRealm() {
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+        Realm.setDefaultConfiguration(realmConfig);
+    }
+
+
 }
