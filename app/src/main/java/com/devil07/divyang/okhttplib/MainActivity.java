@@ -72,7 +72,17 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-          
+            realm = Realm.getDefaultInstance();
+            RealmResults<data> Mydata = realm.where(data.class).findAll();
+            for (int i =0;i<Mydata.size();i++)
+            {
+                String add1=Mydata.get(i).getAdress1();
+                String add2=Mydata.get(i).getAdress2();
+                byte [] img =Mydata.get(i).getImg();
+                data x = new data(add1,add2,img);
+                dataList.add(x);
+            }
+            realm.close();
 
         }
 
