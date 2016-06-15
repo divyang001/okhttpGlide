@@ -1,0 +1,61 @@
+package com.devil07.divyang.okhttplib;
+
+import io.realm.RealmList;
+import io.realm.RealmObject;
+
+
+public class centerdata extends RealmObject {
+
+    private int id;
+    //  private String adress1;
+    // private String adress2;
+    // private byte[] img;
+    private RealmList<ammenities> ammenss;
+    // ammenities ammen[];
+
+
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+//    public String getAdress1() {
+    //      return adress1;
+    //  }
+
+
+    //public void setAdress1(String adress1) {
+    //  this.adress1 = adress1;
+    // }
+
+    //public String getAdress2() {
+    //   return adress2;
+    // }
+
+    /* public void setAdress2(String adress2) {
+         this.adress2 = adress2;
+     }
+
+     public void setImg(byte[] img) {
+         this.img = img;
+     }
+
+     public byte[] getImg() {
+         return img;
+     }
+ */
+    public void setAmmenss(RealmList<ammenities> ammenss) {
+        // RealmQuery<data> query[]=new RealmQuery[array.length];
+        this.ammenss=ammenss;
+
+    }
+    public RealmList<ammenities>getAmmenss() {
+
+        return ammenss;
+    }
+}

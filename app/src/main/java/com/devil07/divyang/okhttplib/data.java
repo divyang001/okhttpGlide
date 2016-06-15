@@ -1,13 +1,14 @@
 package com.devil07.divyang.okhttplib;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 
 public class data extends RealmObject {
     private String adress1;
     private String adress2;
     private byte[] img;
-
-
     public data() {
 
     }
@@ -23,6 +24,7 @@ public class data extends RealmObject {
     public String getAdress1() {
         return adress1;
     }
+
 
     public void setAdress1(String adress1) {
         this.adress1 = adress1;
@@ -43,4 +45,6 @@ public class data extends RealmObject {
     public byte[] getImg() {
         return img;
     }
+
+
 }

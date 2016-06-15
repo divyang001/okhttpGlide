@@ -15,25 +15,25 @@ public class JSONParser {
             /********
               * URLS
               *******/
-                        private static final String MAIN_URL = "http://dev.fittect.com/api/centers/";
+                        private  String MAIN_URL;
             /**
               * TAGs Defined Here...
               */
-                    public static final String TAG = "TAG";
+                    public    String TAG = "TAG";
             /**
               * Key to Send
               */
-                    private static final String KEY_USER_ID = "user_id";
+                    private    String KEY_USER_ID = "user_id";
             /**
               * Response
               */
-                    private static Response response;
+                    private    Response response;
             /**
               * Get Table Booking Charge
               *
               * @return JSON Object
               */
-                    public static JSONObject getDataFromWeb() {
+                    public  JSONObject getDataFromWeb() {
                     try {
                             OkHttpClient client = new OkHttpClient();
                             Request request = new Request.Builder()
@@ -46,4 +46,10 @@ public class JSONParser {
                         }
                     return null;
                 }
+    public void setMAIN_URL(String  MAIN_URL)
+    {
+        this.MAIN_URL="http://dev.fittect.com/api/centers/"+MAIN_URL;
+    }
+
+
         }

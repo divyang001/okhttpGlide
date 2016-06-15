@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.data.StreamAssetPathFetcher;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.model.StringLoader;
 
 import java.util.List;
 
@@ -48,7 +51,13 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
                 public void onClick(View v) {
                     Context context = itemView.getContext();
                     int position=getAdapterPosition();
+                    String pos= String.valueOf(position+1);
                     Toast.makeText(context,"position ="+ position,Toast.LENGTH_SHORT).show();
+                    Bundle basket = new Bundle();
+                    basket.putString("key",pos);
+                    Intent i=new Intent(context,Center.class);
+                    i.putExtras(basket);
+                    context.startActivity(i);
                    // Intent intent = new Intent(context, CourseOpenerActivity.class);//jo bhi krna ithr kar liyo onclick pr
                    // context.startActivity(intent);
                 }

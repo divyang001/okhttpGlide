@@ -15,6 +15,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
+
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -65,6 +69,12 @@ public class MainActivity extends AppCompatActivity {
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
             // Internet Connection is Present
+            realm = Realm.getDefaultInstance();
+            RealmResults<data> Mydata = realm.where(data.class).findAll();
+            realm.beginTransaction();
+            Mydata.clear();
+            realm.commitTransaction();
+            realm.close();
             new GetDataTask().execute();
 
             //  mAdapter.notifyDataSetChanged();
@@ -104,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
             /**
              * Progress Dialog for User Interaction
              */
-         //   dialog = new ProgressDialog(MainActivity.this);
-          //  dialog.setTitle("Hey Wait Please...");
-           // dialog.setMessage("I am getting your JSON");
-         //   dialog.show();
+            //   dialog = new ProgressDialog(MainActivity.this);
+            //  dialog.setTitle("Hey Wait Please...");
+            // dialog.setMessage("I am getting your JSON");
+            //   dialog.show();
         }
 
         //  @Nullable
@@ -115,13 +125,10 @@ public class MainActivity extends AppCompatActivity {
 
         protected String doInBackground(Void... params) {
             realm = Realm.getDefaultInstance();
-            RealmResults<data> Mydata = realm.where(data.class).findAll();
-            realm.beginTransaction();
-            Mydata.clear();
-            realm.commitTransaction();
+            JSONParser obj = new JSONParser();
+            obj.setMAIN_URL("");
 
-
-            JSONObject jsonObject = JSONParser.getDataFromWeb();
+            JSONObject jsonObject = obj.getDataFromWeb();
             jsn = jsonObject;
             try {
                 // Toast.makeText(MainActivity.this, "Hellooooooo in Center", Toast.LENGTH_LONG).show();
@@ -147,10 +154,13 @@ public class MainActivity extends AppCompatActivity {
 
 
                         JSONArray jb = jsonObj.getJSONArray("amenities");
+                        int idam[]=new int[jb.length()];
+                        String namesam[]=new String[jb.length()];
+                        int counter=jb.length();
                         for (int j = 0; j < jb.length(); j++) {
                             JSONObject jsonobj = jb.getJSONObject(j);
-                            String id = jsonobj.getString("id");
-                            String names = jsonobj.getString("name");
+                            idam[j] = jsonobj.getInt("id");
+                            namesam[j] = jsonobj.getString("name");
 
                             //  data+="id="+id+"\nname="+names+"\n";
                         }
@@ -200,6 +210,15 @@ public class MainActivity extends AppCompatActivity {
                         y.setAdress1(address_1);
                         y.setAdress2(address_2);
                         y.setImg(byteArray);
+
+
+
+                     /*  RealmQuery<data> query[]=new RealmQuery[counter];
+                        RealmResults<data> result;
+                        for(int tempo=0;tempo<counter;tempo++){
+                            query[tempo]=realm.where(data.class).equalTo(Am.getId(),idam[tempo]);
+                        }*/
+
                         realm.commitTransaction();
                         dataList.add(x);
                         //  dataList.add(x);
@@ -232,15 +251,17 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-          //  dialog.dismiss();
+            //  dialog.dismiss();
             mAdapter.notifyDataSetChanged();
 
         }
     }
     private void initialiseRealm() {
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this).build();
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(this)
+                .name(Realm.DEFAULT_REALM_NAME)
+                .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
+                .build();
         Realm.setDefaultConfiguration(realmConfig);
     }
-
-
 }
