@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private dataadaptor mAdapter;
     private TextView tv1;
     Realm realm;
+    String[] amenities={"Music" , "Lockers" , "Parking" , "Air conditioning" , "Wifi" , "Changing room" , "Cafe"
+            , "Shower" , "Drinking water" , "Television" ,"Soft floor"};
+    int [] amenID={1,2,3,4,5,6,7,8,9,10,11};
+    ammenities Am[]=new ammenities[11];
     Boolean checkRealm;
     //  String data = null;
 
@@ -61,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialiseRealm();
+        realm = Realm.getDefaultInstance();
+        createAM();
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         cd = new Detection(getApplicationContext());
         output = (TextView) findViewById(R.id.tv1);
@@ -69,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
             // Internet Connection is Present
-            realm = Realm.getDefaultInstance();
             RealmResults<data> Mydata = realm.where(data.class).findAll();
             realm.beginTransaction();
             Mydata.clear();
@@ -82,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
-            realm = Realm.getDefaultInstance();
             RealmResults<data> Mydata = realm.where(data.class).findAll();
             for (int i =0;i<Mydata.size();i++)
             {
@@ -102,6 +106,21 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
 
 
+
+    }
+
+    private void createAM() {
+
+
+        realm.beginTransaction();
+        for(int ctr=0;ctr<11;ctr++){
+            Am[ctr] = realm.createObject(ammenities.class);
+            Am[ctr].setAmmen(amenities[ctr]);
+            Am[ctr].setId(amenID[ctr]);
+        }
+
+
+        realm.commitTransaction();
 
     }
 

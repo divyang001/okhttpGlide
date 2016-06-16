@@ -1,5 +1,4 @@
 package com.devil07.divyang.okhttplib;
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;

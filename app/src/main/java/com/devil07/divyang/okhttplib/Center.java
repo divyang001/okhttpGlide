@@ -33,10 +33,10 @@ public class Center extends AppCompatActivity {
     String posi;
     int positions;
     Realm realm;
-    String[] amenities={"music" , "Lockers" , "Parking" , "Air conditioning" , "Wifi" , "Changing room" , "Cafe"
-            , "Shower" , "Drinking water" , "Television" ,"Soft floor"};
-    int [] amenID={1,2,3,4,5,6,7,8,9,10,11};
-    ammenities Am[]=new ammenities[11];
+    //String[] amenities={"Music" , "Lockers" , "Parking" , "Air conditioning" , "Wifi" , "Changing room" , "Cafe"
+      //      , "Shower" , "Drinking water" , "Television" ,"Soft floor"};
+    //int [] amenID={1,2,3,4,5,6,7,8,9,10,11};
+   // ammenities Am[]=new ammenities[11];
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class Center extends AppCompatActivity {
     private void checkInternet() {
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
-            realm = Realm.getDefaultInstance();
+         /*   realm = Realm.getDefaultInstance();
             clearAmmenities();
             realm.beginTransaction();
             for(int ctr=0;ctr<11;ctr++){
@@ -67,11 +67,11 @@ public class Center extends AppCompatActivity {
 
 
             realm.commitTransaction();
-            realm.close();
+            realm.close();*/
             new GetCenter().execute();
         }
         else {
-            String da=" ";
+            String da="devil\n";
             realm = Realm.getDefaultInstance();
             RealmResults<centerdata> Mydata = realm.where(centerdata.class).equalTo("id",positions).findAll();
             RealmList<ammenities> amm[]=new RealmList[Mydata.size()];
@@ -100,11 +100,11 @@ public class Center extends AppCompatActivity {
     }
 
     private void clearAmmenities() {
-        RealmResults<ammenities> Mydata = realm.where(ammenities.class).findAll();
+      //  RealmResults<ammenities> Mydata = realm.where(ammenities.class).findAll();
         RealmResults<centerdata> Mydat = realm.where(centerdata.class).equalTo("id",positions).findAll();
         Toast.makeText(Center.this,"ammmm"+Mydat.size(),Toast.LENGTH_SHORT).show();
         realm.beginTransaction();
-        Mydata.clear();
+      //  Mydata.clear();
         Mydat.clear();
         realm.commitTransaction();
     }
@@ -116,7 +116,7 @@ public class Center extends AppCompatActivity {
 
     private void initialiseRealm() {
         RealmConfiguration realmConfig = new RealmConfiguration.Builder(this)
-                .name("centers")
+                .name(Realm.DEFAULT_REALM_NAME)
                 .schemaVersion(0)
                 .deleteRealmIfMigrationNeeded()
                 .build();
@@ -155,7 +155,7 @@ public class Center extends AppCompatActivity {
                         for (int j = 0; j < jb.length(); j++) {
                             JSONObject jsonobj = jb.getJSONObject(j);
                             RealmResults<ammenities> datt=realm.where(ammenities.class).equalTo("ammen",jsonobj.getString("name")).findAll();
-                         /*   if(datt.size()!=0)
+                            if(datt.size()!=0)
                             {
                                 String[] ar= new String[3];
                                 ar[0]="hello";
@@ -169,9 +169,9 @@ public class Center extends AppCompatActivity {
                             else
                             {
                                 return null;
-                            }*/
-                            mainn.add(datt.get(0));
-                            namesam[j] = jsonobj.getString("name");
+                            }
+                          //  mainn.add(datt.get(0));
+                          //  namesam[j] = jsonobj.getString("name");
                         }
 
                         JSONArray jc = jsn.getJSONArray("categories");
