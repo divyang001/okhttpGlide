@@ -9,6 +9,7 @@ public class data extends RealmObject {
     private String adress1;
     private String adress2;
     private byte[] img;
+
     public data() {
 
     }

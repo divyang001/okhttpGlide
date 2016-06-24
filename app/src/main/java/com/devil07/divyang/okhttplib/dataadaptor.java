@@ -1,4 +1,5 @@
 package com.devil07.divyang.okhttplib;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -44,21 +45,21 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
             mainadress1 = (TextView) view.findViewById(R.id.textViewName);
             mainadress2 = (TextView) view.findViewById(R.id.textViewEmail);
             image = (ImageView) view.findViewById(R.id.imageView);
-            rv=(RelativeLayout)view.findViewById(R.id.rel);
+            rv = (RelativeLayout) view.findViewById(R.id.rel);
             rv.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = itemView.getContext();
-                    int position=getAdapterPosition();
-                    String pos= String.valueOf(position+1);
-                    Toast.makeText(context,"position ="+ position,Toast.LENGTH_SHORT).show();
+                    int position = getAdapterPosition();
+                    String pos = String.valueOf(position + 1);
+                    Toast.makeText(context, "position =" + position, Toast.LENGTH_SHORT).show();
                     Bundle basket = new Bundle();
-                    basket.putString("key",pos);
-                    Intent i=new Intent(context,Center.class);
+                    basket.putString("key", pos);
+                    Intent i = new Intent(context, Center.class);
                     i.putExtras(basket);
                     context.startActivity(i);
-                   // Intent intent = new Intent(context, CourseOpenerActivity.class);//jo bhi krna ithr kar liyo onclick pr
-                   // context.startActivity(intent);
+                    // Intent intent = new Intent(context, CourseOpenerActivity.class);//jo bhi krna ithr kar liyo onclick pr
+                    // context.startActivity(intent);
                 }
             });
 
@@ -78,7 +79,7 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         data gym = dataList.get(position);
-        byte[] bytes=gym.getImg();
+        byte[] bytes = gym.getImg();
         Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
         holder.mainadress1.setText(gym.getAdress1());
@@ -93,6 +94,7 @@ public class dataadaptor extends RecyclerView.Adapter<dataadaptor.MyViewHolder> 
                 .into(holder.image);   // into what you want */
 
     }
+
     @Override
     public int getItemCount() {
         return dataList.size();

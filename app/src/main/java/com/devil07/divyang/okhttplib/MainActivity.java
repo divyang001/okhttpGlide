@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     Boolean isInternetPresent = false;
     Detection cd;
     private JSONObject jsn;
-    private JSONObject jsnobj;
     String imgurls;
     TextView output;
     private List<data> dataList = new ArrayList<>();
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             , "Shower" , "Drinking water" , "Television" ,"Soft floor"};
     int [] amenID={1,2,3,4,5,6,7,8,9,10,11};
     ammenities Am[]=new ammenities[11];
-    Boolean checkRealm;
-    //  String data = null;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -261,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
             }
             realm.close();
 
-            return "orange";
+            return "check string";
 
         }
 

@@ -33,12 +33,7 @@ public class Center extends AppCompatActivity {
     String posi;
     int positions;
     Realm realm;
-    //String[] amenities={"Music" , "Lockers" , "Parking" , "Air conditioning" , "Wifi" , "Changing room" , "Cafe"
-      //      , "Shower" , "Drinking water" , "Television" ,"Soft floor"};
-    //int [] amenID={1,2,3,4,5,6,7,8,9,10,11};
-   // ammenities Am[]=new ammenities[11];
-
-    @Override
+       @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.center_layout);
         super.onCreate(savedInstanceState);
@@ -56,42 +51,31 @@ public class Center extends AppCompatActivity {
     private void checkInternet() {
         isInternetPresent = cd.isConnectingToInternet();
         if (isInternetPresent) {
-         /*   realm = Realm.getDefaultInstance();
-            clearAmmenities();
-            realm.beginTransaction();
-            for(int ctr=0;ctr<11;ctr++){
-                Am[ctr] = realm.createObject(ammenities.class);
-                Am[ctr].setAmmen(amenities[ctr]);
-                Am[ctr].setId(amenID[ctr]);
-            }
 
-
-            realm.commitTransaction();
-            realm.close();*/
             new GetCenter().execute();
         }
         else {
-            String da="devil\n";
+            String test="\n";
             realm = Realm.getDefaultInstance();
             RealmResults<centerdata> Mydata = realm.where(centerdata.class).equalTo("id",positions).findAll();
             RealmList<ammenities> amm[]=new RealmList[Mydata.size()];
             for (int i=0;i<amm.length;i++)
-            { Toast.makeText(Center.this,"in for",Toast.LENGTH_SHORT).show();
+            {
                 amm[i]=Mydata.get(i).getAmmenss();
                 for (int j=0;j<amm[i].size();j++)
                 {
-                    Toast.makeText(Center.this,"in dfor",Toast.LENGTH_SHORT).show();
-                    da+=amm[i].get(j).getAmmen();
+
+                    test+=amm[i].get(j).getAmmen();
                 }
             }
             if(Mydata.size()==0)
             {
-                tv55.setText("load kro beta");
+                tv55.setText("load");
             }
             else
             {
-                Toast.makeText(Center.this,"in elsefor",Toast.LENGTH_SHORT).show();
-                tv55.setText(da);
+
+                tv55.setText(test);
 
             }
 
@@ -102,7 +86,7 @@ public class Center extends AppCompatActivity {
     private void clearAmmenities() {
       //  RealmResults<ammenities> Mydata = realm.where(ammenities.class).findAll();
         RealmResults<centerdata> Mydat = realm.where(centerdata.class).equalTo("id",positions).findAll();
-        Toast.makeText(Center.this,"ammmm"+Mydat.size(),Toast.LENGTH_SHORT).show();
+
         realm.beginTransaction();
       //  Mydata.clear();
         Mydat.clear();
@@ -155,23 +139,8 @@ public class Center extends AppCompatActivity {
                         for (int j = 0; j < jb.length(); j++) {
                             JSONObject jsonobj = jb.getJSONObject(j);
                             RealmResults<ammenities> datt=realm.where(ammenities.class).equalTo("ammen",jsonobj.getString("name")).findAll();
-                            if(datt.size()!=0)
-                            {
-                                String[] ar= new String[3];
-                                ar[0]="hello";
-                                ar[1]="vello";
-                                ar[2]="bello";
-
-                                return ar;
-
-
-                            }
-                            else
-                            {
-                                return null;
-                            }
-                          //  mainn.add(datt.get(0));
-                          //  namesam[j] = jsonobj.getString("name");
+                              mainn.add(datt.get(0));
+                            namesam[j] = jsonobj.getString("name");
                         }
 
                         JSONArray jc = jsn.getJSONArray("categories");
@@ -243,7 +212,7 @@ public class Center extends AppCompatActivity {
             }
             else
             {
-                tv55.setText("parsing nhi hui theek beta");
+                tv55.setText("parsing error");
             }
 
         }

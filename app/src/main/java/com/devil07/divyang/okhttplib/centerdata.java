@@ -10,7 +10,7 @@ public class centerdata extends RealmObject {
     //  private String adress1;
     // private String adress2;
     // private byte[] img;
-    private RealmList<ammenities> ammenss;
+    private RealmList<ammenities> mAmmenities;
     // ammenities ammen[];
 
 
@@ -24,38 +24,15 @@ public class centerdata extends RealmObject {
         return id;
     }
 
-//    public String getAdress1() {
-    //      return adress1;
-    //  }
+/// can add any set get method
 
-
-    //public void setAdress1(String adress1) {
-    //  this.adress1 = adress1;
-    // }
-
-    //public String getAdress2() {
-    //   return adress2;
-    // }
-
-    /* public void setAdress2(String adress2) {
-         this.adress2 = adress2;
-     }
-
-     public void setImg(byte[] img) {
-         this.img = img;
-     }
-
-     public byte[] getImg() {
-         return img;
-     }
- */
-    public void setAmmenss(RealmList<ammenities> ammenss) {
+    public void setAmmenss(RealmList<ammenities> mAmmenities) {
         // RealmQuery<data> query[]=new RealmQuery[array.length];
-        this.ammenss=ammenss;
+        this.mAmmenities=mAmmenities;
 
     }
     public RealmList<ammenities>getAmmenss() {
 
-        return ammenss;
+        return mAmmenities;
     }
 }
